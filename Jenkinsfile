@@ -8,7 +8,7 @@ pipeline {
 	}
 
 	parameters {
-		string(name: 'version', defaultValue: '0.1.0', description: 'Define version of the image.', trim: true)
+		string(name: 'version', defaultValue: '1.0.0', description: 'Define version of the image.', trim: true)
 	}
 
 	stages {
@@ -22,13 +22,20 @@ pipeline {
 			}
 		}
 
+		stage('ECR Login') {
+			steps {
+				sh '$(aws ecr get-login --no-include-email --region ap-southeast-1)'
+			}
+		}
+
 		stage('Build Docker image') {
 			steps {
 				echo "[INFO] Start building Docker image."
 				script {
-					def customImage = docker.build("jenkins-docker-python:${params.version}", "--label version=${params.version} --tag 031813119665.dkr.ecr.ap-southeast-1.amazonaws.com/io.ubitec/jenkins-docker-python:${params.version} .")
-					sh '$(aws ecr get-login --no-include-email --region ap-southeast-1)'
-					sh "docker push 031813119665.dkr.ecr.ap-southeast-1.amazonaws.com/io.ubitec/jenkins-docker-python:${params.version}"
+					docker.withRegistry('https://031813119665.dkr.ecr.ap-southeast-1.amazonaws.com') {
+						def customImage = docker.build("io.ubitec/jenkins-docker-python:${params.version}", "--label version=${params.version} .")
+						customImage.push()
+					}
 				}
 			}
 		}
