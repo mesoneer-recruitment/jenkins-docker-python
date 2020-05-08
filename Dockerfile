@@ -22,5 +22,4 @@ mkdocs==1.1\
 mkdocs-material==5.1.5\
 "
 
-RUN pip install --user mkdocs==1.1 mkdocs-material==5.1.5 \
-	&& export PATH=$PATH:~jenkins/.local/bin
+RUN pip install mkdocs==1.1 mkdocs-material==5.1.5 pymdown-extensions==7.1
