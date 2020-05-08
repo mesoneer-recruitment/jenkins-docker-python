@@ -1,5 +1,7 @@
-FROM python:3.8.0-alpine3.10
+FROM python:3.8.0-alpine3.10 as ubitec_jenkins_python_base
 
+LABEL name="jenkins-docker-python"
+LABEL version="SHOULD_BE_SPECIFIED"
 LABEL owner="ubitec"
 LABEL maintainer="developers@ubitec.com"
 LABEL description="Docker image of Python used for Jenkins pipeline."
@@ -11,8 +13,14 @@ RUN apk add --no-cache --update \
 RUN addgroup -g 3000 jenkins \
 	&& adduser -D -g GECOS -G jenkins -u 3000 jenkins
 
-# See https://stackoverflow.com/a/42216046/495558 for explanation.
-# Basically, this overwrites the default shell /bin/sh
-# and allows for activating the virtual environment.
+FROM ubitec_jenkins_python_base as ubitec_jenkins_mkdocs
 
-SHELL ["/bin/bash", "-c"]
+LABEL name="jenknis-docker-mkdocs"
+LABEL description="Docker image of MkDocs used for Jenkins pipeline.\
+===\
+mkdocs==1.1\
+mkdocs-material==5.1.5\
+"
+
+RUN pip install --user mkdocs==1.1 mkdocs-material==5.1.5 \
+	&& export PATH=$PATH:~jenkins/.local/bin
