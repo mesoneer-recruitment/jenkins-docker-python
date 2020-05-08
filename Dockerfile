@@ -5,7 +5,7 @@ LABEL maintainer="developers@ubitec.com"
 LABEL description="Docker image of Python used for Jenkins pipeline."
 
 RUN apk add --no-cache --update \
-	&& apk add gcc \
+	&& apk add gcc musl-dev linux-headers \
 	&& rm -rf /var/cache/apk/*
 
 RUN addgroup -g 3000 jenkins \
