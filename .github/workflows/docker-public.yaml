@@ -14,7 +14,7 @@ jobs:
         uses: "docker/build-push-action@v1"
         with:
           repository: "ubitecag/jenkins-docker-python"
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
+          username: ${{ secrets.UBITEC_DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.UBITEC_DOCKER_HUB_PASSWORD }}
           target: "ubitec_jenkins_python_base"
           tags: base-${{ steps.read_version.outputs.version }}
