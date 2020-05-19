@@ -5,6 +5,8 @@ jobs:
   build-base:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v1
       - name: Read VERSION
         id: read_version
         uses: andstor/file-reader-action@v1
