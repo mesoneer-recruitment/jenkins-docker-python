@@ -7,9 +7,9 @@ jobs:
     steps:
       - name: Read VERSION
         id: read_version
-        uses: juliangruber/read-file-action@v1
+        uses: andstor/file-reader-action@v1
         with:
-          path: ./VERSION
+          path: "VERSION"
       - name: "Build Python Base Docker image"
         uses: "docker/build-push-action@v1"
         with:
