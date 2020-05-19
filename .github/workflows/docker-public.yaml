@@ -18,3 +18,19 @@ jobs:
           password: ${{ secrets.UBITEC_DOCKER_HUB_PASSWORD }}
           target: "ubitec_jenkins_python_base"
           tags: base-${{ steps.read_version.outputs.version }}
+  build-mkdocs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v1
+      - name: Read VERSION
+        id: read_version
+        run: echo "::set-output name=version::$(cat ./VERSION)"
+      - name: "Build MkDocs Docker image"
+        uses: "docker/build-push-action@v1"
+        with:
+          repository: "ubitecag/jenkins-docker-python"
+          username: ${{ secrets.UBITEC_DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.UBITEC_DOCKER_HUB_PASSWORD }}
+          target: "ubitec_jenkins_mkdocs"
+          tags: mkdocs-${{ steps.read_version.outputs.version }}
