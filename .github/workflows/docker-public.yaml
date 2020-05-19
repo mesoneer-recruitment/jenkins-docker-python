@@ -9,9 +9,7 @@ jobs:
         uses: actions/checkout@v1
       - name: Read VERSION
         id: read_version
-        uses: andstor/file-reader-action@v1
-        with:
-          path: "VERSION"
+        run: cat ./VERSION
       - name: "Build Python Base Docker image"
         uses: "docker/build-push-action@v1"
         with:
@@ -19,4 +17,4 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
           target: "ubitec_jenkins_python_base"
-          tags: base-${{ steps.read_version.outputs.content }}
+          tags: "base-${{ steps.read_version.outputs.content }}"
