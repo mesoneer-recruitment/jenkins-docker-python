@@ -18,6 +18,8 @@ jobs:
           password: ${{ secrets.UBITEC_DOCKER_HUB_PASSWORD }}
           target: "ubitec_jenkins_python_base"
           tags: base-${{ steps.read_version.outputs.version }}
+          labels: version=${{ steps.read_version.outputs.version }}
+          add_git_labels: true
   build-mkdocs:
     runs-on: ubuntu-latest
     steps:
@@ -34,3 +36,5 @@ jobs:
           password: ${{ secrets.UBITEC_DOCKER_HUB_PASSWORD }}
           target: "ubitec_jenkins_mkdocs"
           tags: mkdocs-${{ steps.read_version.outputs.version }}
+          labels: version=${{ steps.read_version.outputs.version }}
+          add_git_labels: true
