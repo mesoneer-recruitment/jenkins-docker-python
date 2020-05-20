@@ -2,9 +2,27 @@
 
 A Python Docker image built to be used by Jenkins pipeline (for jobs requiring Python runtime).
 
+This repository is the source of DockerHub's [ubitecag/jenkins-docker-python](https://hub.docker.com/r/ubitecag/jenkins-docker-python).
+
 ## Build
 
-Use https://jenkins.ubitec.io/view/docs/job/jenkins-docker-python to build Docker image, versioning by [SemVer](https://semver.org/).
+The repository builds Docker images via GitHub Actions. The `.github/workflows` defines all the workflows used for this repository.
+
+## Versioning
+
+Versioning by [SemVer](https://semver.org/). The version is put in the plain text file `VERSION`.
+
+## Distros
+
+This repository is also built into several Docker images distinguished by the `tag`.
+
+### Base
+
+The images tagged with `base-x.y.z` contains only the Python runtime.
+
+### MkDocs
+
+The images tagged with `mkdocs-x.y.z` has `mkdocs`, `mkdocs-material` and `pymdown-extensions` installed. The image is used for building documents.
 
 ## Why
 
