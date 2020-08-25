@@ -7,9 +7,9 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v1
-      - name: Read VERSION
+      - name: Read all versions
         id: read_version
-        run: echo "::set-output name=version::$(cat ./VERSION)"
+        run: echo "::set-output name=project::$(./.github/scripts/minimize_project_json.py)"
       - name: "Build Python Base Docker image"
         uses: "docker/build-push-action@v1"
         with:
@@ -17,17 +17,18 @@ jobs:
           username: ${{ secrets.UBITEC_DOCKER_HUB_USERNAME }}
           password: ${{ secrets.UBITEC_DOCKER_HUB_PASSWORD }}
           target: "ubitec_jenkins_python_base"
-          tags: base-${{ steps.read_version.outputs.version }}
-          labels: version=${{ steps.read_version.outputs.version }}
+          tags: base-${{ fromJson(steps.read_version.outputs.project).base.version }}
+          labels: version=${{ fromJson(steps.read_version.outputs.project).base.version }}
           add_git_labels: true
+
   build-mkdocs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v1
-      - name: Read VERSION
+      - name: Read all versions
         id: read_version
-        run: echo "::set-output name=version::$(cat ./VERSION)"
+        run: echo "::set-output name=project::$(./.github/scripts/minimize_project_json.py)"
       - name: "Build MkDocs Docker image"
         uses: "docker/build-push-action@v1"
         with:
@@ -35,6 +36,25 @@ jobs:
           username: ${{ secrets.UBITEC_DOCKER_HUB_USERNAME }}
           password: ${{ secrets.UBITEC_DOCKER_HUB_PASSWORD }}
           target: "ubitec_jenkins_mkdocs"
-          tags: mkdocs-${{ steps.read_version.outputs.version }}
-          labels: version=${{ steps.read_version.outputs.version }}
+          tags: mkdocs-${{ fromJson(steps.read_version.outputs.project).mkdocs.version }}_base-${{ fromJson(steps.read_version.outputs.project).base.version }}
+          labels: version=${{ fromJson(steps.read_version.outputs.project).mkdocs.version }}
+          add_git_labels: true
+
+  build-ansible:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v1
+      - name: Read all versions
+        id: read_version
+        run: echo "::set-output name=project::$(./.github/scripts/minimize_project_json.py)"
+      - name: "Build Ansible Docker image"
+        uses: "docker/build-push-action@v1"
+        with:
+          repository: "ubitecag/jenkins-docker-python"
+          username: ${{ secrets.UBITEC_DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.UBITEC_DOCKER_HUB_PASSWORD }}
+          target: "ubitec_jenkins_ansible"
+          tags: ansible-${{ fromJson(steps.read_version.outputs.project).ansible.version }}_base-${{ fromJson(steps.read_version.outputs.project).base.version }}
+          labels: version=${{ fromJson(steps.read_version.outputs.project).ansible.version }}
           add_git_labels: true

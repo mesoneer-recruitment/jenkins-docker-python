@@ -24,6 +24,10 @@ The images tagged with `base-x.y.z` contains only the Python runtime.
 
 The images tagged with `mkdocs-x.y.z` has `mkdocs`, `mkdocs-material` and `pymdown-extensions` installed. The image is used for building documents.
 
+### Ansible
+
+The image tagged with `ansible-2.9.5` has `ansible` installed as base (without all the Galaxy dependencies).
+
 ## Why
 
 The public Docker image `python:x.y.z` provided by Docker Hub cannot work well with ubitec's Jenkins Pipeline:
