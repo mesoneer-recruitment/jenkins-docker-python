@@ -1,7 +1,7 @@
 #---------
 # Python Base
 #---------
-FROM python:3.8.0-alpine3.10 as ubitec_jenkins_python_base
+FROM python:3.8.12-alpine3.15 as ubitec_jenkins_python_base
 
 LABEL name="jenkins-docker-python"
 LABEL version="SHOULD_BE_SPECIFIED"
@@ -46,7 +46,7 @@ RUN apk add --no-cache --virtual .build-deps \
     # successfully. They are installed in a virtual bundle
     # call .build-deps and they will be deleted later.
         libffi-dev openssl-dev make \
-    && pip install ansible==2.9.11 \
+    && pip install ansible==2.9.11 boto3==1.20.20 \
     && apk del .build-deps \
     # Install OpenSSH Client & ssh-agent so that Jenkins Slaves
     # SSH can be used from within the Docker container.
